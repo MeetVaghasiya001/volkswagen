@@ -25,22 +25,22 @@ params = {
         'oneapiKey': 'nOqkwPxxu8ViK9aaHvTkglzVZAlX4yIx',
         'dataVersion': '640B4505742CCF6F343556C288EFEC22',
     }
+
+# it is use to get all pages count
 pagedata = json.loads(request('https://v3-111-2.gsl.feature-app.io/bff/car/search',params))
 lastindex = pagedata.get("meta").get("pageMax")
 
+# this thread was work for get keys
+with ThreadPoolExecutor(max_workers=5) as e:
+    e.map(get_all_cars,range(1,lastindex+1))
 
-with ThreadPoolExecutor(max_workers=10) as e:
-    e.map(get_all_cars,range(lastindex))
-
-
-volks_vagon = []
+# this thread was works for featch data 
 with ThreadPoolExecutor(max_workers=5) as e:
     #car data was data parser it extract data for key
-    result = e.map(car_data,keys)
+    result = list(e.map(car_data,keys))
     row = []
     for r in result:
         #data append in row and volks_vagon list for storeing
-        volks_vagon.append(r)
         row.append((
             r.get('car_type'),
             r.get('car_name'),
@@ -61,8 +61,8 @@ with ThreadPoolExecutor(max_workers=5) as e:
         if len(row) == 100:
             insert_data(row)
 
+if row:
+    insert_data(row)
 
-# it return final output json
-with open('final.json','w',encoding='utf-8') as f:
-    json.dump(volks_vagon,f,indent=4,default=str)
+
 

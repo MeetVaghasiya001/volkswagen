@@ -4,6 +4,7 @@ import json
 
 
 keys = set()
+
 # it return all keys for all avalible page
 def get_all_cars(i):
     api = 'https://v3-111-2.gsl.feature-app.io/bff/car/search'
@@ -33,7 +34,7 @@ def get_all_cars(i):
     for car in cars:
         keys.add(car.get('key'))
 
-    print(len(keys))
+    print(i)
     return list(keys)
 
 # it featch data for given key
@@ -113,7 +114,7 @@ def car_data(key):
     # with open('s2.json','w',encoding='utf-8') as f:
     #     json.dump(data,f,indent=4,default=str)
 
-    print(f"{data.get('car_name')} was added!!")
+    print(f"{key} was added!!")
     return data
 
 

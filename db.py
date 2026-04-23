@@ -22,6 +22,7 @@ def create_db():
                 c_id INT AUTO_INCREMENT PRIMARY KEY,
                 car_type VARCHAR(255),
                 car_name VARCHAR(255),
+                subtitle VARCHAR(255),
                 capacity VARCHAR(255),
                 delers JSON,
                 fule VARCHAR(255),
@@ -42,7 +43,7 @@ def create_db():
 
 # it insert 100 rows at the time
 def insert_data(data):
-    query = """INSERT INTO kia(car_type,car_name,capacity,delers,fule,color,images,price,price_unit,vehicle_data,equipment,finance) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+    query = """INSERT INTO kia(car_type,car_name,subtitle,capacity,delers,fule,color,images,price,price_unit,vehicle_data,equipment,finance) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
     conn,cur = connection()
 
     cur.executemany(query,data)
